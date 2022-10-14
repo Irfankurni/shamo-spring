@@ -1,0 +1,61 @@
+package com.example.shamo.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.example.shamo.dao.ProductGalleryDao;
+import com.example.shamo.entitymanager.BaseEntityManager;
+import com.example.shamo.model.ProductGalleries;
+
+@Repository
+public class ProductGalleryDaoImpl extends BaseEntityManager implements ProductGalleryDao {
+
+	@Override
+	public List<ProductGalleries> findAllGalleries() throws Exception {
+		String sql = "FROM ProductGalleries";
+		List<ProductGalleries> galleries = em.createQuery(sql, ProductGalleries.class).getResultList();
+		return galleries;
+	}
+
+	@Override
+	public ProductGalleries findByIdGallery(Long id) throws Exception {
+		ProductGalleries gallery = em.find(ProductGalleries.class, id);
+		return gallery;
+	}
+
+	@Override
+	public ProductGalleries findByProductId(Long productId) throws Exception {
+		String sql = "SELECT pg from ProductGalleries WHERE pg.product.id = :productId LIMIT 1";
+		ProductGalleries gallery = null;
+
+		try {
+			gallery = em.createQuery(sql, ProductGalleries.class).setParameter("productId", productId)
+					.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return gallery;
+	}
+
+	@Override
+	public ProductGalleries insertGallery(ProductGalleries productGalleries) throws Exception {
+		em.persist(productGalleries);
+		return productGalleries;
+	}
+
+	@Override
+	public ProductGalleries updateGallery(ProductGalleries productGalleries) throws Exception {
+		ProductGalleries updatedGallery = em.merge(productGalleries);
+		em.flush();
+		return updatedGallery;
+	}
+
+	@Override
+	public Boolean deleteGallery(Long id) throws Exception {
+		String sql = "DELETE FROM ProductGalleries WHERE id = :id";
+		int result = em.createQuery(sql).setParameter("id", id).executeUpdate();
+		return result > 0;
+	}
+
+}
