@@ -23,7 +23,7 @@ import com.example.shamo.model.Role;
 import com.example.shamo.service.RoleService;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl implements RoleService {
 
 	@Autowired
 	private RoleDao roleDao;
@@ -70,6 +70,7 @@ public class RoleServiceImpl implements RoleService {
 	public InsertRes insertRole(InsertRoleReq role) throws Exception {
 		Role insert = new Role();
 		insert.setRoleType(role.getRoleType());
+		insert.setCreatedBy(getUserId());
 		insert.setIsActive(true);
 		
 		Role result = roleDao.insertRole(insert);
@@ -89,6 +90,7 @@ public class RoleServiceImpl implements RoleService {
 		Role roleData = roleDao.findByIdRole(role.getId());
 		roleData.setRoleType(role.getRoleType());
 		roleData.setIsActive(role.getIsActive());
+		roleData.setUpdatedBy(getUserId());
 		
 		Role updated = roleDao.updateRole(roleData);
 		

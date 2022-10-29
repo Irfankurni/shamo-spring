@@ -2,10 +2,13 @@ package com.example.shamo.dao.impl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.example.shamo.dao.TransactionDetailDao;
 import com.example.shamo.entitymanager.BaseEntityManager;
 import com.example.shamo.model.TransactionDetails;
 
+@Repository
 public class TransactionDetailDaoImpl extends BaseEntityManager implements TransactionDetailDao{
 
 	@Override

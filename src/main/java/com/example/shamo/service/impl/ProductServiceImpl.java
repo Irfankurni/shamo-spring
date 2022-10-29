@@ -22,7 +22,7 @@ import com.example.shamo.model.Products;
 import com.example.shamo.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDao productDao;
@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setPrice(products.getPrice());
 		product.setTags(products.getTags());
 		product.setDescription(products.getDescription());
-		product.setCreatedBy(1L);
+		product.setCreatedBy(getUserId());
 		product.setIsActive(true);
 
 		Products inserted = productDao.insertProduct(product);

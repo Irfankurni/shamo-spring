@@ -3,6 +3,8 @@ package com.example.shamo.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ import com.example.shamo.model.Users;
 import com.example.shamo.service.TransactionService;
 
 @Service
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl extends BaseServiceImpl implements TransactionService {
 
 	@Autowired
 	private TransactionDao trxDao;
@@ -67,7 +69,9 @@ public class TransactionServiceImpl implements TransactionService {
 				trxDtl.setProductName(product.getProductName());
 
 				ProductGalleries gallery = galleryDao.findByProductId(product.getId());
-				trxDtl.setProductPhoto(gallery.getFile().getId());
+				if(gallery != null) {
+					trxDtl.setProductPhoto(gallery.getFile().getId());					
+				}
 
 				trxDtl.setQuantity(trxDtls.get(j).getQuantity());
 				trxDtl.setTotalPrice(trxDtls.get(j).getTotalPrice());
@@ -120,15 +124,16 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	@Transactional(rollbackOn = Exception.class)
 	public InsertRes insert(InsertTransactionReq transaction) throws Exception {
 		Transactions trx = new Transactions();
 		
-		Users user = userDao.findByIdUser(1L);
+		Users user = userDao.findByIdUser(getUserId());
 		trx.setUser(user);
 		
 		trx.setShippingPrice(transaction.getShippingPrice());
 		trx.setGrandTotalPrice(transaction.getGrandTotalPrice());
-		trx.setCreatedBy(1L);
+		trx.setCreatedBy(getUserId());
 		trx.setIsActive(true);
 		
 		Transactions inserted = trxDao.insertTransaction(trx);
@@ -137,12 +142,12 @@ public class TransactionServiceImpl implements TransactionService {
 			TransactionDetails trxDtl = new TransactionDetails();
 			trxDtl.setTransaction(inserted);
 			
-			Products product = productDao.findByIdProduct(transaction.getTrxDtl().get(i).getTransactionId());
+			Products product = productDao.findByIdProduct(transaction.getTrxDtl().get(i).getProductId());
 			trxDtl.setProduct(product);
 			
 			trxDtl.setQuantity(transaction.getTrxDtl().get(i).getQuantity());
 			trxDtl.setTotalPrice(transaction.getTrxDtl().get(i).getTotalPrice());
-			trxDtl.setCreatedBy(1L);
+			trxDtl.setCreatedBy(getUserId());
 			trxDtl.setIsActive(true);
 			
 			trxDtlDao.insertTransaction(trxDtl);

@@ -44,4 +44,19 @@ public class UserDaoImpl extends BaseEntityManager implements UserDao {
 		return result > 0;
 	}
 
+	@Override
+	public Users findByUsername(String email) throws Exception {
+		String sql = "SELECT tu FROM Users tu "
+				+ "WHERE tu.email = :email";
+		Users user = null;
+		try {
+			user = em.createQuery(sql, Users.class)
+					.setParameter("email", email)
+					.getSingleResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+
 }

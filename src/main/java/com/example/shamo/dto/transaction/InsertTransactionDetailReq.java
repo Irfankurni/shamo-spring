@@ -2,18 +2,9 @@ package com.example.shamo.dto.transaction;
 
 public class InsertTransactionDetailReq {
 
-	private Long transactionId;
 	private Long productId;
 	private int quantity;
 	private Long totalPrice;
-
-	public Long getTransactionId() {
-		return transactionId;
-	}
-
-	public void setTransactionId(Long transactionId) {
-		this.transactionId = transactionId;
-	}
 
 	public Long getProductId() {
 		return productId;

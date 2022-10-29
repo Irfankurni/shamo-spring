@@ -26,11 +26,12 @@ public class ProductGalleryDaoImpl extends BaseEntityManager implements ProductG
 
 	@Override
 	public ProductGalleries findByProductId(Long productId) throws Exception {
-		String sql = "SELECT pg from ProductGalleries WHERE pg.product.id = :productId LIMIT 1";
+		String sql = "SELECT pg from ProductGalleries pg WHERE pg.product.id = :productId";
 		ProductGalleries gallery = null;
 
 		try {
 			gallery = em.createQuery(sql, ProductGalleries.class).setParameter("productId", productId)
+					.setMaxResults(1)
 					.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();

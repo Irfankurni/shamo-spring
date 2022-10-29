@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class Transactions extends BaseModel {
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "users_id")
 	private Users user;
 
 	@Column(name = "shipping_price")

@@ -23,7 +23,7 @@ import com.example.shamo.model.ProductCategories;
 import com.example.shamo.service.ProductCategoryService;
 
 @Service
-public class ProductCategoryServiceImpl implements ProductCategoryService {
+public class ProductCategoryServiceImpl extends BaseServiceImpl implements ProductCategoryService {
 
 	@Autowired
 	private ProductCategoryDao categoryDao;
@@ -66,6 +66,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	public InsertRes insert(InsertProductCategoryReq category) throws Exception {
 		ProductCategories categories = new ProductCategories();
 		categories.setCategory(category.getCategory());
+		categories.setCreatedBy(getUserId());
 		categories.setIsActive(true);
 
 		ProductCategories inserted = categoryDao.insertCategory(categories);
@@ -86,6 +87,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		ProductCategories categoryData = categoryDao.findByIdCategory(category.getId());
 		categoryData.setCategory(category.getCategory());
 		categoryData.setIsActive(category.getIsActive());
+		categoryData.setUpdatedBy(getUserId());
 		
 		ProductCategories update = categoryDao.updateCategory(categoryData);
 		

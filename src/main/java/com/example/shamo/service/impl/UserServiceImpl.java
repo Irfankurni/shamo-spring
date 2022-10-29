@@ -6,6 +6,10 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.shamo.dao.ProfileDao;
@@ -37,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ProfileDao profileDao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public FindAllUserRes findAllUsers() throws Exception {
@@ -97,7 +104,9 @@ public class UserServiceImpl implements UserService {
 		Users user = new Users();
 		user.setUsername(users.getUsername());
 		user.setEmail(users.getEmail());
-		user.setPasswords(users.getPasswords());
+		String password = passwordEncoder.encode(users.getPasswords());
+		user.setPasswords(password);
+		user.setCreatedBy(1L);
 		user.setIsActive(true);
 
 		Role role = roleDao.findByIdRole(users.getRoleId());
@@ -154,6 +163,26 @@ public class UserServiceImpl implements UserService {
 	public DeleteRes deleteUser(Long id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Users login(String email) throws Exception {
+		Users userResult = userDao.findByUsername(email);
+		return userResult;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Users user = null;
+		try {
+			user = userDao.findByUsername(email);
+			if(user == null) {
+				throw new RuntimeException("User Invalid");
+			}
+		} catch (Exception e) {
+			 e.printStackTrace();
+		}
+		return new User(email, user.getPasswords(), new ArrayList<>());
 	}
 
 }
