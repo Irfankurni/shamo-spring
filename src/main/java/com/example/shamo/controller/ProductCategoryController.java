@@ -1,5 +1,7 @@
 package com.example.shamo.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ public class ProductCategoryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<InsertRes> insert(@RequestBody InsertProductCategoryReq req) throws Exception {
+	public ResponseEntity<InsertRes> insert(@RequestBody @Valid InsertProductCategoryReq req) throws Exception {
 		InsertRes data = categoryService.insert(req);
 		return new ResponseEntity<InsertRes>(data, HttpStatus.CREATED);
 	}

@@ -11,6 +11,8 @@ public class UserData {
 	private Long fileId;
 	private Long userId;
 
+	private Boolean isActive;
+
 	public Long getId() {
 		return id;
 	}
@@ -75,4 +77,11 @@ public class UserData {
 		this.userId = userId;
 	}
 
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		isActive = isActive;
+	}
 }

@@ -15,5 +15,7 @@ public interface UserDao {
 	Users updateUser(Users users) throws Exception;
 
 	Boolean deleteUser(Long id) throws Exception;
+	
+	Users findByUsername(String email) throws Exception;
 
 }

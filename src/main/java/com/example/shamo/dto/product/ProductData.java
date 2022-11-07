@@ -1,5 +1,9 @@
 package com.example.shamo.dto.product;
 
+import com.example.shamo.dto.productgallery.ProductGalleryData;
+
+import java.util.List;
+
 public class ProductData {
 
 	private Long id;
@@ -8,6 +12,9 @@ public class ProductData {
 	private float price;
 	private String description;
 	private String tags;
+	private Boolean isActive;
+
+	private List<ProductGalleryData> galleries;
 
 	public Long getId() {
 		return id;
@@ -55,6 +62,22 @@ public class ProductData {
 
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public List<ProductGalleryData> getGalleries() {
+		return galleries;
+	}
+
+	public void setGalleries(List<ProductGalleryData> galleries) {
+		this.galleries = galleries;
 	}
 
 }

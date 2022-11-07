@@ -11,7 +11,7 @@ import com.example.shamo.model.Files;
 import com.example.shamo.service.FileService;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends BaseServiceImpl implements FileService {
 
 	@Autowired
 	private FileDao fileDao;
@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService {
 		Files file = new Files();
 		file.setFileName(data.getFileName());
 		file.setFileExtension(data.getFileName());
-		file.setCreatedBy(1L);
+		file.setCreatedBy(getUserId());
 		file.setIsActive(true);
 		
 		Files inserted = fileDao.insert(file);
