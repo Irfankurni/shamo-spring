@@ -13,7 +13,7 @@ public class ProductDaoImpl extends BaseEntityManager implements ProductDao {
 
 	@Override
 	public List<Products> findAllProducts() throws Exception {
-		String sql = "FROM Products";
+		String sql = "SELECT p FROM Products p";
 		List<Products> products = em.createQuery(sql, Products.class).getResultList();
 		return products;
 	}

@@ -9,6 +9,9 @@ public class ProductData {
 	private Long id;
 	private String productName;
 	private Long categoryId;
+
+	private String categoryName;
+
 	private float price;
 	private String description;
 	private String tags;
@@ -38,6 +41,22 @@ public class ProductData {
 
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Boolean getActive() {
+		return isActive;
+	}
+
+	public void setActive(Boolean active) {
+		isActive = active;
 	}
 
 	public float getPrice() {

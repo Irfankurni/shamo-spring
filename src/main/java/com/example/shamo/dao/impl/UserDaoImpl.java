@@ -13,7 +13,7 @@ public class UserDaoImpl extends BaseEntityManager implements UserDao {
 
 	@Override
 	public List<Users> findAllUsers() throws Exception {
-		String sql = "FROM Users";
+		String sql = "SELECT u FROM Users u";
 		List<Users> users = em.createQuery(sql, Users.class).getResultList();
 		return users;
 	}

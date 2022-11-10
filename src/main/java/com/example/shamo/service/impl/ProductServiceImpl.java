@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import com.example.shamo.dao.FileDao;
 import com.example.shamo.dao.ProductGalleryDao;
+import com.example.shamo.dto.*;
 import com.example.shamo.dto.product.*;
 import com.example.shamo.dto.productgallery.ProductGalleryData;
 import com.example.shamo.model.Files;
@@ -16,9 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.shamo.dao.ProductCategoryDao;
 import com.example.shamo.dao.ProductDao;
-import com.example.shamo.dto.DeleteRes;
-import com.example.shamo.dto.InsertRes;
-import com.example.shamo.dto.InsertResData;
 import com.example.shamo.model.ProductCategories;
 import com.example.shamo.model.Products;
 import com.example.shamo.service.ProductService;
@@ -43,18 +41,24 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		List<ProductListData> productData = new ArrayList<>();
 
 		List<Products> products = productDao.findAllProducts();
-		for (int i = 0; i < products.size(); i++) {
+		for (Products value : products) {
 			ProductListData product = new ProductListData();
-			product.setId(products.get(i).getId());
-			product.setProductName(products.get(i).getProductName());
-			product.setCategoryId(products.get(i).getCategory().getId());
-			product.setPrice(products.get(i).getPrice());
-			product.setDescription(products.get(i).getDescription());
-			product.setTags(products.get(i).getTags());
-			product.setIsActive(products.get(i).getIsActive());
+			product.setId(value.getId());
+			product.setProductName(value.getProductName());
+			product.setCategoryId(value.getCategory().getId());
 
-			ProductGalleries gallery = galleryDao.findByProduct(products.get(i).getId());
-			product.setFileId(gallery.getId());
+			ProductCategories categories = categoryDao.findByIdCategory(value.getCategory().getId());
+			product.setCategoryName(categories.getCategory());
+
+			product.setPrice(value.getPrice());
+			product.setDescription(value.getDescription());
+			product.setTags(value.getTags());
+			product.setIsActive(value.getIsActive());
+
+			ProductGalleries gallery = galleryDao.findByProduct(value.getId());
+			if (gallery != null) {
+				product.setFileId(gallery.getId());
+			}
 
 			productData.add(product);
 
@@ -74,6 +78,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		product.setId(products.getId());
 		product.setProductName(products.getProductName());
 		product.setCategoryId(products.getCategory().getId());
+
+		ProductCategories categories = categoryDao.findByIdCategory(products.getCategory().getId());
+		product.setCategoryName(categories.getCategory());
+
 		product.setPrice(products.getPrice());
 		product.setDescription(products.getDescription());
 		product.setTags(products.getDescription());
@@ -81,10 +89,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		List<ProductGalleries> galleries = galleryDao.findByProductId(products.getId());
 		List<ProductGalleryData> galleriesData = new ArrayList<>();
 
-		for (int i = 0; i < galleries.size() ; i++) {
+		for (ProductGalleries productGalleries : galleries) {
 			ProductGalleryData gallery = new ProductGalleryData();
 
-			Files files = fileDao.findById(galleries.get(i).getFile().getId());
+			Files files = fileDao.findById(productGalleries.getFile().getId());
 			gallery.setFileId(files.getId());
 
 			galleriesData.add(gallery);
@@ -123,9 +131,34 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 		return res;
 	}
 
-	@Override
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public UpdateRes updateProduct(UpdateProductReq product) throws Exception {
+        Products products = productDao.findByIdProduct(product.getId());
+        products.setProductName(product.getProductName());
+
+        ProductCategories categories = categoryDao.findByIdCategory(product.getCategoryId());
+        products.setCategory(categories);
+
+        products.setPrice(product.getPrice());
+        products.setDescription(product.getDescription());
+        products.setTags(product.getTags());
+        products.setIsActive(product.getActive());
+
+        Products updated = productDao.updateProduct(products);
+
+        UpdateResData resData = new UpdateResData();
+        resData.setVersion(updated.getVersion());
+
+        UpdateRes res = new UpdateRes();
+        res.setData(resData);
+        res.setMessage("Success");
+        return res;
+    }
+
+    @Override
+	@Transactional(rollbackOn = Exception.class)
 	public DeleteRes deleteProduct(Long id) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

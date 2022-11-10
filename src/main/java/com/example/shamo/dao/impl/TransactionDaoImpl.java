@@ -13,7 +13,7 @@ public class TransactionDaoImpl extends BaseEntityManager implements Transaction
 
 	@Override
 	public List<Transactions> findAllTransactions() throws Exception {
-		String sql = "FROM Transactions";
+		String sql = "SELECT t FROM Transactions t";
 		List<Transactions> transactions = em.createQuery(sql, Transactions.class).getResultList();
 		return transactions;
 	}
@@ -43,6 +43,6 @@ public class TransactionDaoImpl extends BaseEntityManager implements Transaction
 		int result = em.createQuery(sql).setParameter("id", id).executeUpdate();
 		return result > 0;
 	}
-	
+
 
 }

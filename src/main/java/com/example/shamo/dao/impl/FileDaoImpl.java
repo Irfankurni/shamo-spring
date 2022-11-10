@@ -21,4 +21,11 @@ public class FileDaoImpl extends BaseEntityManager implements FileDao{
 		return files;
 	}
 
+	@Override
+	public Boolean delete(Long id) throws Exception {
+		String sql = "DELETE FROM Files WHERE id = :id";
+		int result = em.createQuery(sql).setParameter("id", id).executeUpdate();
+		return result > 0;
+	}
+
 }

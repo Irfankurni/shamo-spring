@@ -13,7 +13,7 @@ public class ProductGalleryDaoImpl extends BaseEntityManager implements ProductG
 
 	@Override
 	public List<ProductGalleries> findAllGalleries() throws Exception {
-		String sql = "FROM ProductGalleries";
+		String sql = "SELECT pg FROM ProductGalleries pg";
 		List<ProductGalleries> galleries = em.createQuery(sql, ProductGalleries.class).getResultList();
 		return galleries;
 	}
@@ -55,17 +55,11 @@ public class ProductGalleryDaoImpl extends BaseEntityManager implements ProductG
 	}
 
 	@Override
-	public ProductGalleries updateGallery(ProductGalleries productGalleries) throws Exception {
-		ProductGalleries updatedGallery = em.merge(productGalleries);
-		em.flush();
-		return updatedGallery;
-	}
-
-	@Override
 	public Boolean deleteGallery(Long id) throws Exception {
 		String sql = "DELETE FROM ProductGalleries WHERE id = :id";
 		int result = em.createQuery(sql).setParameter("id", id).executeUpdate();
 		return result > 0;
 	}
+
 
 }

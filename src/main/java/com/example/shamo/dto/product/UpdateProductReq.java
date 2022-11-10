@@ -1,16 +1,14 @@
 package com.example.shamo.dto.product;
 
-public class ProductListData {
+public class UpdateProductReq {
 
     private Long id;
     private String productName;
     private Long categoryId;
-    private String categoryName;
-    private float price;
+    private Float price;
     private String description;
     private String tags;
     private Boolean isActive;
-    private Long fileId;
 
     public Long getId() {
         return id;
@@ -36,27 +34,11 @@ public class ProductListData {
         this.categoryId = categoryId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -76,19 +58,11 @@ public class ProductListData {
         this.tags = tags;
     }
 
-    public Boolean getIsActive() {
+    public Boolean getActive() {
         return isActive;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Long getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Long fileId) {
-        this.fileId = fileId;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

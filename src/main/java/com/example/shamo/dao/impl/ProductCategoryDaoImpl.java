@@ -13,7 +13,7 @@ public class ProductCategoryDaoImpl extends BaseEntityManager implements Product
 
 	@Override
 	public List<ProductCategories> findAllCategory() throws Exception {
-		String sql = "FROM ProductCategories";
+		String sql = "SELECT pc FROM ProductCategories pc";
 		List<ProductCategories> categories = em.createQuery(sql, ProductCategories.class).getResultList();
 		return categories;
 	}

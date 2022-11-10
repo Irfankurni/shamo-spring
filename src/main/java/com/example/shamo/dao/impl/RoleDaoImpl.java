@@ -13,7 +13,7 @@ public class RoleDaoImpl extends BaseEntityManager implements RoleDao {
 
 	@Override
 	public List<Role> findAllRoles() throws Exception {
-		String sql = "FROM Role";
+		String sql = "SELECT r FROM Role r";
 		List<Role> role = em.createQuery(sql, Role.class).getResultList();
 		return role;
 	}

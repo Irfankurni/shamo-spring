@@ -2,8 +2,17 @@ package com.example.shamo.dto.productgallery;
 
 public class ProductGalleryData {
 
+    private Long id;
     private Long productId;
     private Long fileId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getProductId() {
         return productId;

@@ -1,10 +1,10 @@
 package com.example.shamo.dto.productcategory;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class InsertProductCategoryReq {
 
-	@NotNull(message = "Category can't be blank")
+	@NotBlank(message = "Category can't be blank")
 	private String category;
 
 	public String getCategory() {

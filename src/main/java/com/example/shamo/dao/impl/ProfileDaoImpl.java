@@ -12,7 +12,7 @@ public class ProfileDaoImpl extends BaseEntityManager implements ProfileDao {
 
 	@Override
 	public List<Profiles> findAllProfiles() throws Exception {
-		String sql = "FROM Profiles";
+		String sql = "SELECT p FROM Profiles p";
 		List<Profiles> profiles = em.createQuery(sql, Profiles.class).getResultList();
 		return profiles;
 	}
@@ -22,7 +22,7 @@ public class ProfileDaoImpl extends BaseEntityManager implements ProfileDao {
 		Profiles profile = em.find(Profiles.class, id);
 		return profile;
 	}
-	
+
 	@Override
 	public Profiles findByUserId(Long userId) throws Exception {
 		String sql = "SELECT p FROM Profiles p WHERE p.user.id = :userId";
@@ -56,6 +56,6 @@ public class ProfileDaoImpl extends BaseEntityManager implements ProfileDao {
 		return result > 0;
 	}
 
-	
+
 
 }
