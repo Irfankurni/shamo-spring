@@ -6,7 +6,7 @@ import com.example.shamo.model.Products;
 
 public interface ProductDao {
 
-	List<Products> findAllProducts() throws Exception;
+	List<Products> findAllProducts(String category) throws Exception;
 
 	Products findByIdProduct(Long id) throws Exception;
 

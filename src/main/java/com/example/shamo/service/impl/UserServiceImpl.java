@@ -31,7 +31,7 @@ import com.example.shamo.model.Users;
 import com.example.shamo.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 	@Autowired
 	private RoleDao roleDao;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ProfileDao profileDao;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -79,6 +79,29 @@ public class UserServiceImpl implements UserService {
 	public FindByIdUser findByIdUser(Long id) throws Exception {
 
 		Users users = userDao.findByIdUser(id);
+
+		UserData user = new UserData();
+		user.setId(users.getId());
+		user.setUsername(users.getUsername());
+		user.setEmail(users.getEmail());
+		user.setRoleId(users.getRole().getId());
+
+		Profiles profile = profileDao.findByUserId(users.getId());
+		user.setFullName(profile.getFullName());
+		user.setAddress(profile.getAddress());
+		if (profile.getFile() != null) {
+			user.setFileId(profile.getFile().getId());
+		}
+		user.setUserId(profile.getUser().getId());
+
+		FindByIdUser res = new FindByIdUser();
+		res.setData(user);
+		return res;
+	}
+
+	@Override
+	public FindByIdUser findLoggedInUser() throws Exception {
+		Users users = userDao.findByIdUser(getUserId());
 
 		UserData user = new UserData();
 		user.setId(users.getId());
@@ -138,24 +161,24 @@ public class UserServiceImpl implements UserService {
 		Users user = userDao.findByIdUser(users.getId());
 		user.setUsername(users.getUsername());
 		user.setEmail(users.getEmail());
-		
+
 		Role role = roleDao.findByIdRole(users.getRoleId());
 		user.setRole(role);
-		
+
 		Users updatedUser = userDao.updateUser(user);
-		
+
 		Profiles profile = profileDao.findByUserId(user.getId());
 		profile.setFullName(users.getFullName());
 		profile.setAddress(users.getAddress());
 		profileDao.updateProfile(profile);
-		
+
 		UpdateResData resData = new UpdateResData();
 		resData.setVersion(updatedUser.getVersion());
-		
+
 		UpdateRes data = new UpdateRes();
 		data.setData(resData);
 		data.setMessage("Berhasil");
-		
+
 		return data;
 	}
 
@@ -165,7 +188,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public Users login(String email) throws Exception {
 		Users userResult = userDao.findByUsername(email);

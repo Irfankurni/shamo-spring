@@ -12,17 +12,19 @@ import com.example.shamo.dto.user.UpdateUserReq;
 import com.example.shamo.model.Users;
 
 public interface UserService extends UserDetailsService {
-	
+
 	FindAllUserRes findAllUsers() throws Exception;
 
 	FindByIdUser findByIdUser(Long id) throws Exception;
+
+	FindByIdUser findLoggedInUser() throws Exception;
 
 	InsertRes insertUser(InsertUserReq users) throws Exception;
 
 	UpdateRes updateUser(UpdateUserReq users) throws Exception;
 
 	DeleteRes deleteUser(Long id) throws Exception;
-	
+
 	Users login(String email) throws Exception;
 
 }

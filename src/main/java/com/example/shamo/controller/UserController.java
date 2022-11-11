@@ -22,28 +22,33 @@ import com.example.shamo.service.UserService;
 @RestController
 @RequestMapping("users")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping
 	public ResponseEntity<FindAllUserRes> findAll() throws Exception {
 		FindAllUserRes data = userService.findAllUsers();
 		return new ResponseEntity<FindAllUserRes>(data, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("{id}")
 	public ResponseEntity<FindByIdUser> findById(@PathVariable Long id) throws Exception {
 		FindByIdUser data = userService.findByIdUser(id);
 		return new ResponseEntity<FindByIdUser>(data, HttpStatus.OK);
 	}
-	
+	@GetMapping("current")
+	public ResponseEntity<FindByIdUser> findLoggedInUser() throws Exception {
+		FindByIdUser data = userService.findLoggedInUser();
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
 	@PostMapping
 	public ResponseEntity<InsertRes> insert(@RequestBody InsertUserReq user) throws Exception {
 		InsertRes data = userService.insertUser(user);
 		return new ResponseEntity<InsertRes>(data, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<UpdateRes> update(@RequestBody UpdateUserReq user) throws Exception {
 		UpdateRes data = userService.updateUser(user);

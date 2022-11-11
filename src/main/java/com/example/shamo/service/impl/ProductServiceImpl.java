@@ -37,10 +37,10 @@ public class ProductServiceImpl extends BaseServiceImpl implements ProductServic
 	private FileDao fileDao;
 
 	@Override
-	public FindAllProductRes findAllProduct() throws Exception {
+	public FindAllProductRes findAllProduct(String category) throws Exception {
 		List<ProductListData> productData = new ArrayList<>();
 
-		List<Products> products = productDao.findAllProducts();
+		List<Products> products = productDao.findAllProducts(category);
 		for (Products value : products) {
 			ProductListData product = new ProductListData();
 			product.setId(value.getId());

@@ -8,14 +8,29 @@ import com.example.shamo.dao.ProductDao;
 import com.example.shamo.entitymanager.BaseEntityManager;
 import com.example.shamo.model.Products;
 
+import javax.persistence.TypedQuery;
+
 @Repository
 public class ProductDaoImpl extends BaseEntityManager implements ProductDao {
 
 	@Override
-	public List<Products> findAllProducts() throws Exception {
-		String sql = "SELECT p FROM Products p";
-		List<Products> products = em.createQuery(sql, Products.class).getResultList();
-		return products;
+	public List<Products> findAllProducts(String category) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT p FROM Products p LEFT JOIN ProductCategories pc ON p.category.id = pc.id ");
+
+		if(category != null && !category.isEmpty()) {
+			sql.append("WHERE LOWER(pc.category) = LOWER(:category)");
+		}
+
+		sql.append("ORDER BY p.createdAt ASC");
+
+		TypedQuery<Products> query = em.createQuery(sql.toString(), Products.class);
+
+		if(category != null && !category.isEmpty()) {
+			query.setParameter("category", category);
+		}
+
+		return query.getResultList();
 	}
 
 	@Override

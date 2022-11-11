@@ -10,7 +10,7 @@ import com.example.shamo.dto.product.UpdateProductReq;
 
 public interface ProductService {
 
-	FindAllProductRes findAllProduct() throws Exception;
+	FindAllProductRes findAllProduct(String category) throws Exception;
 
 	FindByIdProductRes findByIdProduct(Long id) throws Exception;
 

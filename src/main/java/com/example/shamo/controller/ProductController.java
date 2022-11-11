@@ -22,8 +22,8 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<?> findAll() throws Exception {
-		FindAllProductRes data = productService.findAllProduct();
+	public ResponseEntity<?> findAll(String category) throws Exception {
+		FindAllProductRes data = productService.findAllProduct(category);
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
