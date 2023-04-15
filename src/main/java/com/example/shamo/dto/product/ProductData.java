@@ -9,9 +9,7 @@ public class ProductData {
 	private Long id;
 	private String productName;
 	private Long categoryId;
-
 	private String categoryName;
-
 	private float price;
 	private String description;
 	private String tags;
