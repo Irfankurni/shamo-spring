@@ -22,13 +22,13 @@ public class ProductController {
 	private ProductService productService;
 
 	@GetMapping
-	public ResponseEntity<?> findAll(String category) throws Exception {
+	public ResponseEntity<?> findAll(@RequestParam(required = false) String category) throws Exception {
 		FindAllProductRes data = productService.findAllProduct(category);
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<?> findByid(@PathVariable Long id) throws Exception {
+	public ResponseEntity<?> findById(@PathVariable Long id) throws Exception {
 		FindByIdProductRes data = productService.findByIdProduct(id);
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
